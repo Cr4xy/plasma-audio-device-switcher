@@ -1,15 +1,18 @@
-project(plasma-audio-device-switcher)
-
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_VERSION "5.22.0")
-set(PROJECT_VERSION_MAJOR 5)
+project(plasma_audio_device_switcher)
 
-set(KF5_MIN_VERSION "5.82")
+set(PROJECT_VERSION "6.0.0")
+set(PROJECT_VERSION_MAJOR 6)
 
-find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/ ${ECM_MODULE_PATH})
+set(KF6_MIN_VERSION "6.0.0")
 
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Plasma)
+find_package(ECM ${KF6_MIN_VERSION} REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
+
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS)
+find_package(Plasma ${KF5_MIN_VERSION} REQUIRED)
 
 add_subdirectory(package)
+

@@ -18,23 +18,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.2
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 1.2 as QtControls
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls as QtControls
 
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.plasmoid 2.0
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.components as PlasmaComponents
+import org.kde.plasma.plasmoid
+
+import org.kde.kirigami as Kirigami
 
 // plasma pulseaudio plugin
-import org.kde.plasma.private.volume 0.1
+import org.kde.plasma.private.volume
 
-Item {
+PlasmoidItem {
     id: main
 
     Layout.minimumWidth: gridLayout.implicitWidth
     Layout.minimumHeight: gridLayout.implicitHeight
-    Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
+    // Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
 
     property bool showIconsOnly: plasmoid.configuration.showIconsOnly
     property bool useVerticalLayout: plasmoid.configuration.useVerticalLayout
@@ -62,7 +64,7 @@ Item {
         flow: useVerticalLayout == true ? GridLayout.TopToBottom : GridLayout.LeftToRight
         anchors.fill: parent
 
-        QtControls.ExclusiveGroup {
+        QtControls.ButtonGroup {
             id: buttonGroup
         }
 
@@ -72,17 +74,18 @@ Item {
 
             delegate: PlasmaComponents.Button {
                 id: tab
+
                 enabled: currentPort !== null
 
                 text: showIconsOnly ? "" : currentDescription
-                iconName: showIconsOnly ? iconNameFromPort(currentPort, IconName) : ""
+                icon.name: showIconsOnly ? iconNameFromPort(currentPort, IconName) : ""
 
                 checkable: true
-                exclusiveGroup: buttonGroup
-                tooltip: currentDescription
+                // exclusiveGroup: buttonGroup
+                QtControls.ToolTip.text: currentDescription
 
                 Layout.fillWidth: true
-                Layout.preferredWidth: showIconsOnly ? -1 : units.gridUnit * 10
+                Layout.preferredWidth: showIconsOnly ? -1 : Kirigami.Units.GridUnit * 10
 
                 readonly property var sink: model.PulseObject
                 readonly property var currentPort: model.Ports[ActivePortIndex]

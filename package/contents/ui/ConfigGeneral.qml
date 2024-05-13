@@ -18,15 +18,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Controls 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import org.kde.kirigami as Kirigami
+
 
 Item {
+    id: page
     property alias cfg_showIconsOnly: showIconsOnly.checked
     property alias cfg_useVerticalLayout: useVerticalLayout.checked
 
-    ColumnLayout {
+    Kirigami.FormLayout {
         Layout.fillWidth: true
         CheckBox {
             id: showIconsOnly
