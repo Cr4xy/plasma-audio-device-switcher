@@ -36,10 +36,12 @@ PlasmoidItem {
 
     Layout.minimumWidth: gridLayout.implicitWidth
     Layout.minimumHeight: gridLayout.implicitHeight
-    // Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
 
-    property bool showIconsOnly: plasmoid.configuration.showIconsOnly
+    property bool showIcons: plasmoid.configuration.showIcons
+    property bool showText: plasmoid.configuration.showText
     property bool useVerticalLayout: plasmoid.configuration.useVerticalLayout
+    property bool showConfigureButton: plasmoid.configuration.showConfigureButton
+    property list<string> relevantDevices: plasmoid.configuration.relevantDevices
 
     // from plasma-volume-control applet
     function iconNameFromPort(port, fallback) {
@@ -59,10 +61,24 @@ PlasmoidItem {
         return fallback;
     }
 
+    function outputName(port, sink) {
+        return port.description + " (" + sink.properties["device.product.name"] + ")";
+    }
+
+    PlasmaComponents.Button {
+        text: "Configure"
+        icon.name: "settings-configure"
+        onClicked: plasmoid.internalAction("configure").trigger()
+        visible: showConfigureButton
+    }
+
     GridLayout {
         id: gridLayout
         flow: useVerticalLayout == true ? GridLayout.TopToBottom : GridLayout.LeftToRight
         anchors.fill: parent
+
+        rowSpacing: Kirigami.Units.largeSpacing
+        columnSpacing: Kirigami.Units.largeSpacing
 
         QtControls.ButtonGroup {
             id: buttonGroup
@@ -77,19 +93,21 @@ PlasmoidItem {
 
                 enabled: currentPort !== null
 
-                text: showIconsOnly ? "" : currentDescription
-                icon.name: showIconsOnly ? iconNameFromPort(currentPort, IconName) : ""
+                visible: relevantDevices.length === 0 || relevantDevices.indexOf(currentDescription) !== -1
+
+                text: showText ? currentDescription : ""
+                icon.name: showIcons ? iconNameFromPort(currentPort, IconName) : ""
 
                 checkable: true
-                // exclusiveGroup: buttonGroup
                 QtControls.ToolTip.text: currentDescription
 
                 Layout.fillWidth: true
                 Layout.preferredWidth: showIconsOnly ? -1 : Kirigami.Units.GridUnit * 10
+                readonly property bool showIconsOnly: showIcons && !showText
 
                 readonly property var sink: model.PulseObject
                 readonly property var currentPort: model.Ports[ActivePortIndex]
-                readonly property string currentDescription: currentPort ? currentPort.description : model.Description
+                readonly property string currentDescription: currentPort ? outputName(currentPort, sink) : model.Description
 
                 Binding {
                     target: tab

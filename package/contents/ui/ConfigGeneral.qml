@@ -23,21 +23,30 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import org.kde.kirigami as Kirigami
 
-
 Item {
     id: page
-    property alias cfg_showIconsOnly: showIconsOnly.checked
+    property alias cfg_showIcons: showIcons.checked
+    property alias cfg_showText: showText.checked
     property alias cfg_useVerticalLayout: useVerticalLayout.checked
+    property alias cfg_showConfigureButton: showConfigureButton.checked
 
     Kirigami.FormLayout {
         Layout.fillWidth: true
         CheckBox {
-            id: showIconsOnly
-            text: i18n("Show icons only")
+            id: showIcons
+            text: i18n("Show icons")
+        }
+        CheckBox {
+            id: showText
+            text: i18n("Show text")
         }
         CheckBox {
             id: useVerticalLayout
             text: i18n("Use vertical layout")
+        }
+        CheckBox {
+            id: showConfigureButton
+            text: i18n("Show configure button")
         }
     }
 }

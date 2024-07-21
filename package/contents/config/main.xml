@@ -5,11 +5,22 @@
   <kcfgfile name="" />
 
   <group name="General">
-    <entry name="showIconsOnly" type="Bool">
-      <default>false</default>
+    <entry name="showIcons" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="showText" type="Bool">
+      <default>true</default>
     </entry>
     <entry name="useVerticalLayout" type="Bool">
       <default>false</default>
+    </entry>
+    <entry name="showConfigureButton" type="Bool">
+      <default>true</default>
+    </entry>
+  </group>
+  <group name="Relevant devices">
+    <entry name="relevantDevices" type="StringList">
+      <default></default>
     </entry>
   </group>
 
